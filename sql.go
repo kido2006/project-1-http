@@ -24,16 +24,20 @@ func main() {
 
 	if err = db.Ping(); err != nil {
 		log.Fatal("Không thể kết nối MySQL:", err)
+	} else {
+		fmt.Println("Kết nối MySQL thành công!")
 	}
-
-	fmt.Println("Kết nối MySQL thành công!")
 
 	// load templates
 	tpl = template.Must(template.ParseGlob("*.html"))
 
 	// route
+	//http.HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request))
+
 	http.HandleFunc("/register", registerHandler)
 	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/change-password", changePasswordHandler)
+	http.HandleFunc("/delete", deleteUserHandler)
 
 	fmt.Println("Server chạy trên http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
