@@ -18,15 +18,16 @@ func main() {
 	// username: niga , password: 123456789 , database: myapp
 	db, err = sql.Open("mysql", "niga:123456789@tcp(localhost:3306)/myapp")
 	if err != nil {
-		log.Fatal("Lỗi kết nối MySQL:", err)
+		log.Fatal("MySQL connection error:", err)
 	}
 	defer db.Close()
 
 	if err = db.Ping(); err != nil {
-		log.Fatal("Không thể kết nối MySQL:", err)
-	} else {
-		fmt.Println("Kết nối MySQL thành công!")
-	}
+		log.Fatal("Can not connect to MySQL:", err)
+	} 
+	
+	fmt.Println("MySQL connection successful!")
+	
 
 	// load templates
 	tpl = template.Must(template.ParseGlob("*.html"))
@@ -39,6 +40,6 @@ func main() {
 	http.HandleFunc("/change-password", changePasswordHandler)
 	http.HandleFunc("/delete", deleteUserHandler)
 
-	fmt.Println("Server chạy trên http://localhost:8080")
+	fmt.Println("Server running on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
